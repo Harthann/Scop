@@ -10,16 +10,20 @@ rouge='\033[31m'
 
 NAME= scop
 
+SRCS= main.c
+
 HEADERS_DIR=include
 DEPEDENCIES=
 HEADERS_FILES=
 INCLUDES= $(addprefix $(HEADERS_DIR)/, $(HEADERS_FILES))
 
 SRCS_DIR=srcs/
-SRCS= main.c
 
 OBJS_DIR=objs/
 OBJS= $(addprefix $(OBJS_DIR), $(SRCS:%.c=%.o))
+
+RESOURCES=resources
+RESOURCES_TAR=resources.tar
 
 PATH = $(shell find srcs -type d)
 vpath %.c $(foreach dir, $(PATH), $(dir))
@@ -41,14 +45,18 @@ DELETED=\[$(rouge)DELETED$(neutre)\]
 
 all: $(NAME)
 
-$(NAME): $(INCLUDES) $(OBJS_DIR) $(OBJS)
+$(NAME): $(INCLUDES) $(OBJS_DIR) $(OBJS) $(RESOURCES)
 	@$(CC) $(ALL_FLAGS) $(OBJS) -o $(NAME)
 	@echo $(COMPILED) $(NAME)
 	@echo \[$(vertclair)ready to use$(neutre)\] $(NAME)
 
 $(OBJS_DIR):
 	@$(MKDIR) -p objs
-	@echo  [$(vertclair)OK$(neutre)]  Object directory created
+	@echo  \[$(vertclair)OK$(neutre)\]  Object directory created
+
+$(RESOURCES) : $(RESOURCES_TAR)
+	@/usr/bin/tar -xvf $(RESOURCES_TAR)
+	@echo  \[$(vertclair)OK$(neutre)\]  Resources extracted
 
 print:
 	@echo \[$(rose)oui$(neutre)\]
@@ -65,6 +73,7 @@ clean :
 
 fclean: clean
 	@$(RM) -rf $(NAME)
+	@$(RM) -rf $(RESOURCES)
 	@echo $(DELETED) $(NAME)
 
 re: fclean all
