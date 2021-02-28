@@ -1,37 +1,41 @@
-#include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include "scop.h"
+#define GLEW_STATIC 1
 
-int main(void)
+t_all	*singleton()
 {
-    GLFWwindow* window;
+	static t_all *all = NULL;
+	if (all)
+		return (all);
+	all = (t_all*)ft_calloc(sizeof(t_all), 1);
+	all->buffer_id = ft_calloc(sizeof(unsigned int), 1);
+	all->index_id = ft_calloc(sizeof(unsigned int), 1);
+	return all;
+}
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
+int main(int ac, char **av)
+{
+	t_all *all;
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
+	all = singleton();
+	if (!all)
+		return (1);
 
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+	all->window = setWindowContext(all);
+	if (!all->window)
+	{
+		glfwTerminate();
+		return (-1);
+	}
+	if (ac == 2)
+		extract_object(av[1], &all->datas);
+	else
+		gen_sqr(&all->datas, 100);
+	render_loop(all);
 
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
-    return 0;
+	glfwTerminate();
+	return 0;
 }
