@@ -18,5 +18,6 @@ typedef struct s_mat
 t_mat   createMatrice(int type, float *v, float angle);
 void	printMatrices(t_mat mat);
 t_mat	multMat(float m1[16], float m2[16]);
+t_mat	scaleMat(float scalar, t_mat m);
 
 #endif

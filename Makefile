@@ -61,9 +61,9 @@ $(OBJS_DIR):
 $(LIBFT):
 	@/usr/bin/make -C libft
 
-$(RESOURCES) : $(RESOURCES_TAR)
-	@/usr/bin/tar -xvf $(RESOURCES_TAR) > /dev/null
-	@echo  \[$(vertclair)OK$(neutre)\]  Resources extracted
+# $(RESOURCES) : $(RESOURCES_TAR)
+# 	@/usr/bin/tar -xvf $(RESOURCES_TAR) > /dev/null
+# 	@echo  \[$(vertclair)OK$(neutre)\]  Resources extracted
 
 $(OBJS_DIR)%.o : %.c
 	@$(CC) $(ERRORS_FLAGS) -I$(HEADERS_DIR) -c $< -o $@

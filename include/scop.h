@@ -21,13 +21,20 @@ typedef enum e_bool
 	false, true
 } t_bool;
 
+typedef struct s_vector
+{
+	float x;
+	float y;
+	float z;
+} t_vector;
+
 typedef struct s_object
 {
-	float   *vertex;
-	int	 vertex_count;
-	int	 index_count;
-	uint	*index;
-	char	*mtl_link;
+	t_vector	*vertex;
+	int			vertex_count;
+	int			index_count;
+	uint		*index;
+	char		*mtl_link;
 } t_object;
 
 typedef struct s_all
@@ -41,6 +48,9 @@ typedef struct s_all
 	int			u_Model;
 	int			u_View;
 	int			u_Projection;
+	t_mat		Model;
+	t_bool		g_rotate;
+
 } t_all;
 
 /*	PROTOTYPE	*/

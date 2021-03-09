@@ -8,6 +8,7 @@ void	add_index(const char* line, uint **index, int *index_count)
 	int	 offset;
 	int	 i;
 
+	write(1, "Starting index extraction\n", 26);
 	*index = ft_ralloc(*index, *index_count * sizeof(uint),
 						sizeof(uint) * (3 + *index_count));
 	offset = 2;
@@ -22,32 +23,34 @@ void	add_index(const char* line, uint **index, int *index_count)
 			error("Object extraction error\n");
 		++offset;
 	}
+	write(1, "Finished index extraction\n", 26);
 }
 
-void	add_vertex(const char* line, float **vertex, int *vertex_count)
+void	add_vertex(const char* line, t_vector **vertex, int *vertex_count)
 {
 	int	 offset;
 	int	 err;
-	int	 i;
 
-	*vertex = ft_ralloc(*vertex, *vertex_count * sizeof(float),
-							sizeof(float) * (4 + *vertex_count));
-	i = *vertex_count - 1;
+	*vertex = ft_ralloc(*vertex, *vertex_count * sizeof(t_vector),
+							sizeof(t_vector) * (1 + *vertex_count));
 	offset = 2;
 	err = 0;
-	*vertex_count += 3;
-	while (++i < *vertex_count)
-	{
-		(*vertex)[i] = ft_strfloat(line, &offset, &err);
-		if (line[offset])
-			++offset;
-		else
-			break ;
-		if (err)
-			error("Object extraction error\n");
-	}
-	(*vertex)[*vertex_count] = 1;
-	++*vertex_count;
+	(*vertex)[*vertex_count].x = ft_strfloat(line, &offset, &err);
+	if (line[offset])
+		++offset;
+	if (err)
+		error("Object extraction error\n");
+	(*vertex)[*vertex_count].y = ft_strfloat(line, &offset, &err);
+	if (line[offset])
+		++offset;
+	if (err)
+		error("Object extraction error\n");
+	(*vertex)[*vertex_count].z = ft_strfloat(line, &offset, &err);
+	if (line[offset])
+		++offset;
+	if (err)
+		error("Object extraction error\n");
+	*vertex_count += 1;
 }
 
 void	extract_object(const char* path, t_object *obj)
@@ -58,6 +61,7 @@ void	extract_object(const char* path, t_object *obj)
 
 	ret = 1;
 	fd = open(path, O_RDONLY);
+	write(1, "Starting parse object file\n", 27);
 	if (fd > 0)
 	{
 		while (ret)
@@ -75,4 +79,5 @@ void	extract_object(const char* path, t_object *obj)
 			//	 obj->mtl_link = line;
 		}
 	}
+	write(1, "Parsing finished\n", 17);
 }

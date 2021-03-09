@@ -1,10 +1,6 @@
 #include "scop.h"
 
 #include <stdio.h>
-void	window_close(GLFWwindow* window)
-{
-	glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
 
 GLFWmonitor* getMonitor(int count)
 {
@@ -21,10 +17,10 @@ GLFWmonitor* getMonitor(int count)
 
 void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	printf("Scancode : [%d] Mods : [%d]\n", scancode, singleton()->fullscreen);
+	printf("Scancode : [%d] Mods : [%d]\n", scancode, key);
 	if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE)
-		window_close(window);
-	if (action == GLFW_PRESS && key == GLFW_KEY_F9)
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	else if (action == GLFW_PRESS && key == GLFW_KEY_F9)
 	{
 		GLFWmonitor *monitor = getMonitor(0);
 		if (monitor)
@@ -38,6 +34,18 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			singleton()->fullscreen = !singleton()->fullscreen;
 		}
 	}
+	else if (action == 1 && scancode == 82) {
+		float v[3] = {0.5f, 0.5f, 0.5f};
+		singleton()->Model = multMat(&singleton()->Model.r1[0], &createMatrice(M_SCALE, v, 0).r1[0]);
+	}
+	else if (action == 1 && scancode == 86) {
+		float v[3] = {1.5f, 1.5f, 1.5f};
+		singleton()->Model = multMat(&singleton()->Model.r1[0], &createMatrice(M_SCALE, v, 0).r1[0]);
+	}
+	else if (action == GLFW_PRESS && key == GLFW_KEY_P)
+		printMatrices(singleton()->Model);
+	else if (action == GLFW_PRESS && key == GLFW_KEY_R)
+		singleton()->g_rotate = !singleton()->g_rotate;
 }
 
 GLFWwindow*	setWindowContext()

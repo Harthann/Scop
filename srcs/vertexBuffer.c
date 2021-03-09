@@ -4,7 +4,7 @@ void	generate_buffer(t_object datas, int size, unsigned int *buffer)
 {
 	glGenBuffers(1, buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
-	glBufferData(GL_ARRAY_BUFFER, datas.vertex_count * sizeof(float),
+	glBufferData(GL_ARRAY_BUFFER, datas.vertex_count * sizeof(t_vector),
 				datas.vertex,  GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, size, GL_FLOAT, GL_FALSE, size * sizeof(float), 0);

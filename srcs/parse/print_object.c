@@ -8,8 +8,8 @@ void	print_object(t_object datas)
 	while (i < datas.vertex_count)
 	{
 		printf("v %f %f %f\n",
-		datas.vertex[i], datas.vertex[i + 1], datas.vertex[i + 2]);
-		i+=3;
+		datas.vertex[i].x, datas.vertex[i].y, datas.vertex[i].z);
+		i++;
 	}
 	i = 0;
 	while (i < datas.index_count)

@@ -33,9 +33,9 @@ int main(int ac, char **av)
 	if (ac == 2)
 		extract_object(av[1], &all->datas);
 	else
-		gen_sqr(&all->datas, 100);
+		gen_sqr(&all->datas, 1);
+	print_object(all->datas);
 	render_loop(all);
-
 	glfwTerminate();
 	return 0;
 }
