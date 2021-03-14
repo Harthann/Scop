@@ -41,7 +41,7 @@ ALL_FLAGS= $(DEP_FLAGS) $(ERRORS_FLAGS)
 
 SHELL=/bin/zsh
 CC=/usr/bin/clang
-RM=/usr/bin/rm
+RM=rm
 ECHO=/usr/bin/echo
 MKDIR=/usr/bin/mkdir
 

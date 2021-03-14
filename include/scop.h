@@ -17,7 +17,10 @@
 
 #define RATIO 0.01745329251f
 
-typedef uint uint;
+#define VIEW_DISTANCE 10.0f
+#define FIELD_OF_VIEW 90.0f
+
+typedef unsigned int uint;
 
 typedef enum e_bool
 {

@@ -2,3 +2,10 @@
 scop
 .swp
 resources
+scop-other
+glfw-3.3.3.bin.MACOS
+glew
+lib/mac
+lib/GLFW
+include/GL
+include/GLFW
