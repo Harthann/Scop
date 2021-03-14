@@ -16,6 +16,12 @@ void	print_object(t_object datas)
 	{
 		printf("f %u %u %u\n",
 		datas.index[i] + 1, datas.index[i + 1] + 1, datas.index[i + 2] + 1);
+		printf("v %f %f %f\n",
+		datas.vertex[datas.index[i]].x, datas.vertex[datas.index[i]].y, datas.vertex[datas.index[i]].z);
+		printf("v %f %f %f\n",
+		datas.vertex[datas.index[i+1]].x, datas.vertex[datas.index[i+1]].y, datas.vertex[datas.index[i+1]].z);
+		printf("v %f %f %f\n",
+		datas.vertex[datas.index[i+2]].x, datas.vertex[datas.index[i+2]].y, datas.vertex[datas.index[i+2]].z);
 		i+=3;
 	}
 }

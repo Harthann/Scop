@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#define TO_DEGREE 0.01745329251f
+
 static t_mat   identityMatrice(void)
 {
 	t_mat   mat;
@@ -76,8 +78,8 @@ static t_mat   rotationMatrice(float t[3], float angle)
 	float omca;	// 1 - cos(angle)
 
 	mat = identityMatrice();
-	ca = cos(angle);
-	sa = sin(angle);
+	ca = cos(angle * TO_DEGREE);
+	sa = sin(angle * TO_DEGREE);
 	omca = 1.0f - ca;
 
 	mat.r1[0] = t[0] * t[0] * omca + ca;

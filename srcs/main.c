@@ -11,8 +11,8 @@ t_all	*singleton()
 	if (all)
 		return (all);
 	all = (t_all*)ft_calloc(sizeof(t_all), 1);
-	all->buffer_id = ft_calloc(sizeof(unsigned int), 1);
-	all->index_id = ft_calloc(sizeof(unsigned int), 1);
+	all->datas.buffer_id = ft_calloc(sizeof(unsigned int), 1);
+	all->datas.index_id = ft_calloc(sizeof(unsigned int), 1);
 	return all;
 }
 
@@ -32,9 +32,6 @@ int main(int ac, char **av)
 	}
 	if (ac == 2)
 		extract_object(av[1], &all->datas);
-	else
-		gen_sqr(&all->datas, 1);
-	print_object(all->datas);
 	render_loop(all);
 	glfwTerminate();
 	return 0;

@@ -11,7 +11,8 @@ rouge='\033[31m'
 NAME= scop
 
 SRCS= main.c ft_strlen.c extract_shader.c render.c vertexBuffer.c window_control.c \
-		extract_object.c get_next_line.c print_object.c matrices.c m_operations.c
+		extract_object.c get_next_line.c print_object.c matrices.c m_operations.c vector.c \
+		mvp_init.c shader_init.c
 
 HEADERS_DIR=include
 DEPEDENCIES=
@@ -26,8 +27,8 @@ OBJS= $(addprefix $(OBJS_DIR), $(SRCS:%.c=%.o))
 RESOURCES=resources
 RESOURCES_TAR=resources.tar
 
-PATH = $(shell find srcs -type d)
-vpath %.c $(foreach dir, $(PATH), $(dir))
+SRCS_PATH = $(shell find srcs -type d)
+vpath %.c $(foreach dir, $(SRCS_PATH), $(dir))
 
 DEP_FLAGS= -lGL -lglfw -lm -lGLEW
 ERRORS_FLAGS= -Wall -Wextra
@@ -49,7 +50,7 @@ DELETED=\[$(rouge)DELETED$(neutre)\]
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(INCLUDES) $(OBJS_DIR) $(OBJS) $(RESOURCES)
+$(NAME): $(LIBFT) $(INCLUDES) $(RESOURCES) $(OBJS_DIR) $(OBJS)
 	@$(CC) $(ALL_FLAGS) $(OBJS) $(LIBS) -o $(NAME)
 	@echo $(COMPILED) $(NAME)
 	@echo \[$(vertclair)ready to use$(neutre)\] $(NAME)
@@ -61,9 +62,9 @@ $(OBJS_DIR):
 $(LIBFT):
 	@/usr/bin/make -C libft
 
-# $(RESOURCES) : $(RESOURCES_TAR)
-# 	@/usr/bin/tar -xvf $(RESOURCES_TAR) > /dev/null
-# 	@echo  \[$(vertclair)OK$(neutre)\]  Resources extracted
+$(RESOURCES) : $(RESOURCES_TAR)
+	@tar -xvf $(RESOURCES_TAR)
+	@echo  \[$(vertclair)OK$(neutre)\]  Resources extracted
 
 $(OBJS_DIR)%.o : %.c
 	@$(CC) $(ERRORS_FLAGS) -I$(HEADERS_DIR) -c $< -o $@

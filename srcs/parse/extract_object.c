@@ -8,7 +8,6 @@ void	add_index(const char* line, uint **index, int *index_count)
 	int	 offset;
 	int	 i;
 
-	write(1, "Starting index extraction\n", 26);
 	*index = ft_ralloc(*index, *index_count * sizeof(uint),
 						sizeof(uint) * (3 + *index_count));
 	offset = 2;
@@ -23,16 +22,18 @@ void	add_index(const char* line, uint **index, int *index_count)
 			error("Object extraction error\n");
 		++offset;
 	}
-	write(1, "Finished index extraction\n", 26);
 }
 
 void	add_vertex(const char* line, t_vector **vertex, int *vertex_count)
 {
 	int	 offset;
 	int	 err;
+	static int count = 1;
+	static t_vector color = {.x = 1.0f, .y = 0.0f, .z = 0.0f};
+	float tmp;
 
 	*vertex = ft_ralloc(*vertex, *vertex_count * sizeof(t_vector),
-							sizeof(t_vector) * (1 + *vertex_count));
+							sizeof(t_vector) * (2 + *vertex_count));
 	offset = 2;
 	err = 0;
 	(*vertex)[*vertex_count].x = ft_strfloat(line, &offset, &err);
@@ -50,8 +51,34 @@ void	add_vertex(const char* line, t_vector **vertex, int *vertex_count)
 		++offset;
 	if (err)
 		error("Object extraction error\n");
-	*vertex_count += 1;
+	if (!((*vertex_count - 1) % 3)) {
+		tmp = color.y;
+		color.y = color.x;
+		color.x = color.z;
+		color.z = tmp;
+	}
+	(*vertex)[*vertex_count + 1].x = color.x; 
+	(*vertex)[*vertex_count + 1].y = color.y;
+	(*vertex)[*vertex_count + 1].z = color.z;
+	*vertex_count += 2;
+	
 }
+	// (*vertex)[*vertex_count + 1].x = 0.0f; // 11010000 
+	// (*vertex)[*vertex_count + 1].y = 0.0f; // 11110101
+	// (*vertex)[*vertex_count + 1].z = 0.0f; 
+	// if (count == 1)
+	// {
+	// 	(*vertex)[*vertex_count + 1].x = 1.0f; // 11010000
+	// 	count = 2;
+	// }
+	// else if (count == 2) {
+	// 	(*vertex)[*vertex_count + 1].y = 1.0f; // 10001011
+	// 	count = 3 ;
+	// }
+	// else if (count == 3) {
+	// 	(*vertex)[*vertex_count + 1].z = 1.0f; // 10001011
+	// 	count = 1;
+	// }
 
 void	extract_object(const char* path, t_object *obj)
 {
@@ -61,7 +88,6 @@ void	extract_object(const char* path, t_object *obj)
 
 	ret = 1;
 	fd = open(path, O_RDONLY);
-	write(1, "Starting parse object file\n", 27);
 	if (fd > 0)
 	{
 		while (ret)
@@ -79,5 +105,4 @@ void	extract_object(const char* path, t_object *obj)
 			//	 obj->mtl_link = line;
 		}
 	}
-	write(1, "Parsing finished\n", 17);
 }

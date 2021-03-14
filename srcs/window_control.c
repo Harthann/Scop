@@ -15,6 +15,49 @@ GLFWmonitor* getMonitor(int count)
 		return (NULL);
 }
 
+void	view_transform(int scancode)
+{
+	float v[3] = {
+		0.0f, 0.0f, 0.0f
+	};
+	if (scancode == 263)
+		v[0] = -0.25f;
+	else if (scancode == 262)
+		v[0] = 0.25f;
+	else if (scancode == 265)
+		v[1] = 0.25f;
+	else if (scancode == 264)
+		v[1] = -0.25f;
+	singleton()->View = multMat(&singleton()->View.r1[0],
+							&createMatrice(M_TRANSLATE, v, 0).r1[0]);
+	glUniformMatrix4fv(singleton()->u_View, 1, 0, &singleton()->View.r1[0]);
+}
+
+void	model_transform(int scancode)
+{
+	float v[3];
+	if (scancode == 86) {
+		v[0] = 1.5f;
+		v[1] = 1.5f;
+		v[2] = 1.5f;
+	}
+	else if (scancode == 82) {
+		v[0] = 0.5f;
+		v[1] = 0.5f;
+		v[2] = 0.5f;
+	}
+	singleton()->datas.Model = multMat(&singleton()->datas.Model.r1[0],
+							&createMatrice(M_SCALE, v, 0).r1[0]);
+	glUniformMatrix4fv(singleton()->datas.u_Model, 1, 0, &singleton()->datas.Model.r1[0]);
+}
+
+/*
+**	up		: 265
+**	down	: 264
+**	left	: 263
+**	right	: 262
+*/
+
 void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	printf("Scancode : [%d] Mods : [%d]\n", scancode, key);
@@ -34,16 +77,13 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			singleton()->fullscreen = !singleton()->fullscreen;
 		}
 	}
-	else if (action == 1 && scancode == 82) {
-		float v[3] = {0.5f, 0.5f, 0.5f};
-		singleton()->Model = multMat(&singleton()->Model.r1[0], &createMatrice(M_SCALE, v, 0).r1[0]);
-	}
-	else if (action == 1 && scancode == 86) {
-		float v[3] = {1.5f, 1.5f, 1.5f};
-		singleton()->Model = multMat(&singleton()->Model.r1[0], &createMatrice(M_SCALE, v, 0).r1[0]);
-	}
+	else if (action == 1 &&
+			(scancode >= 262 && scancode <= 265))
+		view_transform(scancode);
+	else if (action == 1 && (scancode == 82 || scancode == 86))
+		model_transform(scancode);
 	else if (action == GLFW_PRESS && key == GLFW_KEY_P)
-		printMatrices(singleton()->Model);
+		printMatrices(singleton()->datas.Model);
 	else if (action == GLFW_PRESS && key == GLFW_KEY_R)
 		singleton()->g_rotate = !singleton()->g_rotate;
 }
