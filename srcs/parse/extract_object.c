@@ -29,7 +29,7 @@ void	add_vertex(const char* line, t_vector **vertex, int *vertex_count)
 	int	 offset;
 	int	 err;
 	static int count = 1;
-	static t_vector color = {.x = 1.0f, .y = 0.0f, .z = 0.0f};
+	static t_vector color = {.x = 0.8f, .y = 0.6f, .z = 0.5f};
 	float tmp;
 
 	*vertex = ft_ralloc(*vertex, *vertex_count * sizeof(t_vector),
@@ -51,34 +51,18 @@ void	add_vertex(const char* line, t_vector **vertex, int *vertex_count)
 		++offset;
 	if (err)
 		error("Object extraction error\n");
-	if (!((*vertex_count - 1) % 3)) {
-		tmp = color.y;
-		color.y = color.x;
-		color.x = color.z;
-		color.z = tmp;
-	}
+	// if (!((*vertex_count - 1) % 3)) {
+	// 	tmp = color.y;
+	// 	color.y = color.x;
+	// 	color.x = color.z;
+	// 	color.z = tmp;
+	// }
 	(*vertex)[*vertex_count + 1].x = color.x; 
 	(*vertex)[*vertex_count + 1].y = color.y;
 	(*vertex)[*vertex_count + 1].z = color.z;
 	*vertex_count += 2;
 	
 }
-	// (*vertex)[*vertex_count + 1].x = 0.0f; // 11010000 
-	// (*vertex)[*vertex_count + 1].y = 0.0f; // 11110101
-	// (*vertex)[*vertex_count + 1].z = 0.0f; 
-	// if (count == 1)
-	// {
-	// 	(*vertex)[*vertex_count + 1].x = 1.0f; // 11010000
-	// 	count = 2;
-	// }
-	// else if (count == 2) {
-	// 	(*vertex)[*vertex_count + 1].y = 1.0f; // 10001011
-	// 	count = 3 ;
-	// }
-	// else if (count == 3) {
-	// 	(*vertex)[*vertex_count + 1].z = 1.0f; // 10001011
-	// 	count = 1;
-	// }
 
 void	extract_object(const char* path, t_object *obj)
 {
